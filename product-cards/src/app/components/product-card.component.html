@@ -1,0 +1,42 @@
+<div class="grid-wrapper">
+  <div class="card" *ngFor="let product of products">
+    <img [src]="product.thumbnail" [alt]="product.title" />
+    <div class="card-body">
+      <div class="title">{{ product.title }}</div>
+      <div class="brand">
+        by {{ product.brand ? product.brand : "no brand" }}
+      </div>
+      <div class="category">{{ product.category }}</div>
+
+      <div class="rating">
+        <ng-container *ngFor="let star of getStars(product.rating)">
+          <ng-container [ngSwitch]="star">
+            <i *ngSwitchCase="'full'" class="fa fa-star"></i>
+            <i *ngSwitchCase="'half'" class="fa fa-star-half-alt"></i>
+            <i *ngSwitchDefault class="fa fa-star-o"></i>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <div class="discount">ลด {{ product.discountPercentage }}%</div>
+      <div class="price">
+        ${{ product.price.toFixed(2) }}
+        <span class="original-price">
+          ${{
+            (
+              product.price +
+              (product.price * product.discountPercentage) / 100
+            ).toFixed(2)
+          }}
+        </span>
+      </div>
+
+      <div class="status">Stock: {{ product.stock }}</div>
+      <div class="warranty">{{ product.warrantyInformation }}</div>
+
+      <a href="#" class="button" [class.disabled]="product.stock === 0">
+        {{ product.stock === 0 ? "Not Available" : "Add to Cart" }}
+      </a>
+    </div>
+  </div>
+</div>
